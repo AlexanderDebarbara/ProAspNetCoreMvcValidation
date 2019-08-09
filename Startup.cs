@@ -15,7 +15,9 @@ namespace ProAspNetCoreMvcValidation
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddMvcOptions(options => {
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor((_) => "Campo obrigatório.");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -26,12 +28,10 @@ namespace ProAspNetCoreMvcValidation
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStatusCodePages();
+            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
-
-            app.UseMvc(rotas =>
-            {
-                rotas.MapRoute(name: "defaut", template: "{controller=Home}/{action=Index}");
-            });
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
