@@ -33,6 +33,17 @@ namespace ProAspNetCoreMvcValidation.Controllers
                 ModelState.AddModelError(nameof(compromisso.AceitaTermos), "Voce deve aceitar os termos");
             }
 
+            if (ModelState.GetValidationState(nameof(compromisso.Data))
+                == ModelValidationState.Valid
+                && ModelState.GetValidationState(nameof(compromisso.NomeCliente))
+                == ModelValidationState.Valid
+                && compromisso.NomeCliente.Equals("Alice", StringComparison.OrdinalIgnoreCase)
+                && compromisso.Data.DayOfWeek == DayOfWeek.Monday)
+            {
+                ModelState.AddModelError("",
+                    "Alice não pode ser agendada na segunda-feira");
+            }
+
             if (ModelState.IsValid)
             {
                 return View("Completo", compromisso);
@@ -40,6 +51,25 @@ namespace ProAspNetCoreMvcValidation.Controllers
             else
             {
                 return View();
+            }
+        }
+
+        [HttpGet]
+        public  IActionResult Compra()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Compra(Compra compra)
+        {
+            if (ModelState.IsValid)
+            {
+                return View("CompraConfirmado", compra);
+            }
+            else
+            {
+                return View(compra);
             }
         }
     }

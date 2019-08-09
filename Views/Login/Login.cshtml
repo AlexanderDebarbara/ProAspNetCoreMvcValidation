@@ -1,0 +1,30 @@
+﻿@model Usuario
+@{ Layout = "_Layout"; }
+
+@section scripts {
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input.input-validation-error").addClass("is-invalid");
+        });
+    </script>
+}
+
+<div class="bg-primary panel-body"><h2>Login</h2></div>
+<form class="panel-body" asp-action="Logar" method="post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <hr />
+
+    <div class="form-group">
+        <label asp-for="Email">Email:</label>
+        <div><span asp-validation-for="Email" class="text-danger"></span></div>
+        <input asp-for="Email" type="email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Senha">Nome:</label>
+        <div><span asp-validation-for="Senha" class="text-danger"></span></div>
+        <input asp-for="Senha" type="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Entrar</button>
+</form>
